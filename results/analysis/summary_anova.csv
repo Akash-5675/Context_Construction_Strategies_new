@@ -1,0 +1,7 @@
+metric,f_stat,p_value
+answer_relevance,76.9983,1.4794153258834772e-211
+rouge_l,44.8257,1.494013405958964e-121
+faithfulness,188.0142,0.0
+retrieval_recall,1.4095,0.13900478382222903
+context_words,527.04,0.0
+latency_ms,89.3436,2.065483288431309e-245

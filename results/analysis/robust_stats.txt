@@ -1,0 +1,49 @@
+Rows: 12,000 | questions: 100 | refusal rate: 9.9%
+Read a non-significant test as 'no effect detected', and use the confidence interval for its plausible size.
+
+H1: overlap versus no overlap (fixed-size chunks)
+ Chunk size 128 words:
+  rouge_l: 0.0 vs 10.0: diff -0.0255 (95% CI -0.0574 to +0.0064), Holm p = 0.3495, n = 100
+  rouge_l: 0.0 vs 20.0: diff -0.0107 (95% CI -0.0426 to +0.0212), Holm p = 1, n = 100
+  rouge_l: 0.0 vs 40.0: diff -0.0105 (95% CI -0.0458 to +0.0248), Holm p = 1, n = 100
+  answered_num: 0.0 vs 10.0: diff -0.0250 (95% CI -0.0652 to +0.0152), Holm p = 0.6602, n = 100
+  answered_num: 0.0 vs 20.0: diff -0.0163 (95% CI -0.0572 to +0.0247), Holm p = 0.6761, n = 100
+  answered_num: 0.0 vs 40.0: diff -0.0200 (95% CI -0.0612 to +0.0212), Holm p = 0.6761, n = 100
+ Chunk size 256 words:
+  rouge_l: 0.0 vs 10.0: diff -0.0110 (95% CI -0.0255 to +0.0036), Holm p = 0.3371, n = 100
+  rouge_l: 0.0 vs 20.0: diff -0.0118 (95% CI -0.0295 to +0.0059), Holm p = 0.3371, n = 100
+  rouge_l: 0.0 vs 40.0: diff -0.0137 (95% CI -0.0307 to +0.0033), Holm p = 0.3371, n = 100
+  answered_num: 0.0 vs 10.0: diff -0.0112 (95% CI -0.0235 to +0.0010), Holm p = 0.215, n = 100
+  answered_num: 0.0 vs 20.0: diff -0.0163 (95% CI -0.0341 to +0.0016), Holm p = 0.215, n = 100
+  answered_num: 0.0 vs 40.0: diff -0.0150 (95% CI -0.0350 to +0.0050), Holm p = 0.215, n = 100
+ Chunk size 512 words:
+  rouge_l: 0.0 vs 10.0: diff -0.0008 (95% CI -0.0019 to +0.0002), Holm p = 0.3389, n = 100
+  rouge_l: 0.0 vs 20.0: diff -0.0004 (95% CI -0.0010 to +0.0002), Holm p = 0.4226, n = 100
+  rouge_l: 0.0 vs 40.0: diff -0.0003 (95% CI -0.0010 to +0.0003), Holm p = 0.4226, n = 100
+  answered_num: 0.0 vs 10.0: diff +0.0000 (95% CI +0.0000 to +0.0000), Holm p = 1, n = 100
+  answered_num: 0.0 vs 20.0: diff +0.0000 (95% CI +0.0000 to +0.0000), Holm p = 1, n = 100
+  answered_num: 0.0 vs 40.0: diff +0.0000 (95% CI +0.0000 to +0.0000), Holm p = 1, n = 100
+ Mixed model, overlap: {'chi2': 8.239142181409989, 'df': 3, 'p': 0.041319453141844514}
+ Mixed model, size x overlap: {'chi2': 6.971316021823441, 'df': 6, 'p': 0.32350803265977646}
+ Abstracts average about 238 words, so overlap can change little at 512 words.
+
+H2: sentence versus semantic chunking
+  rouge_l: sent_nltk vs semantic: diff +0.2303 (95% CI +0.1775 to +0.2831), Holm p = 2.65e-13, n = 100
+  rouge_l: sent_scispacy vs semantic: diff +0.2297 (95% CI +0.1771 to +0.2823), Holm p = 2.65e-13, n = 100
+  rouge_l: sent_nltk vs sent_scispacy: diff +0.0006 (95% CI -0.0017 to +0.0029), Holm p = 0.6229, n = 100
+  answered_num: sent_nltk vs semantic: diff +0.4537 (95% CI +0.3739 to +0.5336), Holm p = 4.886e-19, n = 100
+  answered_num: sent_scispacy vs semantic: diff +0.4550 (95% CI +0.3751 to +0.5349), Holm p = 4.886e-19, n = 100
+  answered_num: sent_nltk vs sent_scispacy: diff -0.0013 (95% CI -0.0037 to +0.0012), Holm p = 0.3197, n = 100
+ Mixed model, condition: {'chi2': 612.8550490920134, 'df': 2, 'p': 8.32179448770731e-134}
+ Mixed model, condition given context size: {'chi2': 185.9056696643638, 'df': 2, 'p': 4.276581521709065e-41}
+ Context size and semantic chunking overlap heavily, so the adjusted result relies on few comparable runs.
+ NLTK and scispaCy produce nearly identical chunks, so their similarity is expected by construction.
+
+H3: quality against context size, with a change in slope at 2,500 estimated tokens
+ {'n_runs_past_2500': 2023, 'slope_before_per_1k_tokens': 0.049105934882068616, 'slope_change_after_2500': -0.10178636933356298, 'slope_change_lr': {'chi2': 133.78990429347323, 'df': 1, 'p': 6.07340502241143e-31}}
+ A cliff needs a significantly negative slope change. Context size is tied to k and chunk size, so this is association only.
+
+Secondary: MiniLM versus PubMedBERT
+  rouge_l: minilm vs pubmedbert: diff -0.0214 (95% CI -0.0328 to -0.0101), Holm p = 0.000305, n = 100
+  answered_num: minilm vs pubmedbert: diff -0.0238 (95% CI -0.0391 to -0.0086), Holm p = 0.00252, n = 100
+  retrieval_recall: minilm vs pubmedbert: diff -0.0055 (95% CI -0.0129 to +0.0019), Holm p = 0.1444, n = 100
